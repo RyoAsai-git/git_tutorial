@@ -1,0 +1,356 @@
+ls -a 
+    ls
+    ディレクトリの中身を表示
+    -a
+    all　全てのフォルダを表示
+
+    .       ..      .git
+    隠れフォルダ
+
+.gitの中身    
+    objects リポジトリの本体
+    この中に圧縮ファイル、コミットファイル、ツリーファイルが保存される
+
+    config
+    gitの設定
+
+    git initを行うことで.gitが作成され、ここにはgitに必要なファイルのほとんどが入る
+
+
+git clone
+    2つコピーされる
+    1  リモートリポジトリのファイルがワークツリーにコピーされる
+    2  .gitディレクトリがコピーされる
+
+
+git add 
+    ステージは何のためにあるのか
+    git add ファイル名
+    git add ディレクトリ名
+    git add . ワークツリー全ての変更をステージに追加
+
+    ワークツリーからステージへ変更を追加するのがgit add 
+
+    ステージはコミットする変更を準備するための場所
+    ワークツリーでファイルを変更した時に全ての変更ではなく、一部の変更のみ記録したい場合、
+    記録したい変更のみステージに追加する
+
+    一部の変更だけを記録するためにステージは存在
+
+
+git commit
+    変更を記録
+    git commit 
+    git commit -m "<メッセージ>"
+    git commit -v  ファイルへの変更内容を確認できる 
+
+    ステージからリポジトリへ登録 スナップショットで記録
+
+    わかりやすいコミットメッセージ　変更内容の要点と理由
+    
+    正式な書き方
+    1行目 変更内容の要約
+    2    空行
+    3    変更した理由
+    チーム開発やオープンソースへコミットする際はこちらのやり方おすすめ
+
+
+基本的にどのファイルが変更されたかを確認し、コミットしたいファイルのみ保存する
+    変更されたファイルを全てコミットすると、まだ変更途中のファイルもコミットしてしまう可能性
+
+    git status
+    変更されたファイルを確認することができる
+    ワークツリーとステージ間で変更されたファイル 
+        前回ステージに追加してから変更したワークツリーのファイル
+    ステージとリポジトリで変更されたファイル
+        前回コミットしてからステージに追加されたファイル
+
+
+変更差分を確認する
+    git addする前の変更分
+    git diff 
+    git diff ファイル名
+
+    git addした後の変更分
+    git diff --staged
+
+    実際の開発では何を変更し、何をステージに追加したかを常に確認する必要
+
+
+変更履歴を確認
+    git log
+    git log --oneline  1行で表示
+    git log -p index.html  ファイルの変更差分を表示
+    git log -n コミット数  表示するコミット数を制限する 最近の変更履歴だけ確認する目的
+
+    commit 1da8e79b82d2770126cf69eb2b3d1f3418a655d1 (HEAD -> master)
+    //コミットのハッシュ値　コミットのidのようなもの
+    Author: RyoAsai-git <61679701+RyoAsai-git@users.noreply.github.com>
+    //作成者
+    Date:   Sat Sep 26 12:39:30 2020 +0900
+    //コミットした日付
+
+        git diffを追記
+    //コミットメッセージ
+    //これが最新のメッセージ
+
+    //2個目
+    commit 6813f8a59c10e3a9773a5f195ee8e5513691ed9c
+    Author: RyoAsai-git <61679701+RyoAsai-git@users.noreply.github.com>
+    Date:   Sat Sep 26 12:33:08 2020 +0900
+
+        git statusコマンドを追記
+
+    //1個目
+    commit b5ec5425059cfb6563d34dddebc14c8927e3c352
+    Author: RyoAsai-git <61679701+RyoAsai-git@users.noreply.github.com>
+    Date:   Sat Sep 26 12:23:45 2020 +0900
+
+        initial commit
+
+
+ファイルの削除を記録
+    git add .とは別のコマンドを使う必要
+
+    ファイルごと削除 そもそもファイルがいらなくなったケース
+    git rm ファイル名
+    git rm -r ディレクトリ名
+    git rm コマンドは変更履歴、ワークツリーからも消える
+
+    ワークツリーにファイルを残したい、履歴からは削除する ファイルは必要だが、履歴からはいらないケース
+    git rm --cached ファイル名
+    ex パスワードを載せたファイルをgitにあげてしまった。
+    ファイルは残したいが、gitの履歴には残したくない時に使う
+    
+    git rm index.html
+    git status
+        On branch master
+        Changes to be committed:
+        (use "git restore --staged <file>..." to unstage)
+                deleted:    index.ht
+        //リポジトリに記録されていたindex.htmlが削除されて、削除された変更状態がstageに記録されている
+
+    git rm --cache index.html
+    git status
+        Changes to be committed:
+        (use "git restore --staged <file>..." to unstage)
+                deleted:    index.html
+        //リポジトリから削除され、変更状態がステージに記録されている
+
+        Untracked files:
+        (use "git add <file>..." to include in what will be committed)
+                index.html
+        //まだgitで追跡できていないファイルがある。
+        //リポジトリからファイルを削除したのでgitの状態からindex.htmlが追加されていない
+        //ワークツリーにあるindex.htmlを新しいファイルとして認識している
+
+
+ファイルの移動を記録する
+    git mv 旧ファイル名 新ファイル名
+
+    以下のコマンドと同じ
+    mv 旧ファイル 新ファイル
+    git rm 旧ファイル
+    git add 新ファイル
+    git mvを使えば、この三つのコマンドをやらなくても良い
+
+
+githubにプッシュ
+    リモートリポジトリへローカルの内容をアップすること
+    
+    リモートリポジトリを新規追加する
+    git remote add origin 
+    http://github.com/user/repo.git
+
+    originというショートカットでurlのリモートリポジトリを登録する
+    これすると今後、originという名前でgithubリポジトリにアップしたり、取得することができる
+    git remote addなど
+    
+    originで登録しておかないと毎回githubのリポジトリurlを入力する必要
+    origin gitの慣用句 
+    git cloneした時の元々のリポジトリをgitではoriginとして割り当てている
+    メインのリモートリポジトリのことをorigin
+
+    リモートリポジトリへ送信する
+    git push リモート名 ブランチ名
+    git push origin master
+    ローカルリポジトリの内容をリモートリポジトリへ送ることをプッシュという
+
+    git push -u origin master
+    -u　をつけることで次回以降 git pushだけでプッシュできる
+    初回つけると便利
+
+
+コマンドにエイリアスをつける
+    エイリアス　別名
+    コマンドの入力を短縮して入力を楽にする
+    コマンドに別の名前を割り当てる
+
+    git config --global alias.ci commit  commitというコマンドにciというエイリアス
+    commitの際にciで済む
+    git config --global alias.st status
+    git config --global alias.br branch
+    git config --global alias.co checkout
+
+    git config 設定を変更するコマンド
+    --global　pc全体の設定
+
+
+gitでバージョン管理したくないファイルを無視
+    どういったファイル
+    パスワードなどの秘密情報
+        漏洩問題 AWSなどの多額の請求
+    チーム開発で必要のないファイル mac windowsの自動生成ファイル キャッシュなど「
+
+    .gitignoreファイルに指定する
+    
+    指定したファイルを除外
+    index.html
+    ルートディレクトリを指定
+    /root.html
+    ディレクトリ以下を除外
+    dir/
+    ・以下の文字列にマッチ「*」ワイルドカード
+    /*/*.css 一つディレクトリを潜った先にある任意のcssファイル全てを除外
+
+
+変更をもとに戻す
+    ワークツリーのファイルの変更をもとに戻す
+
+    git checkout -- ファイル名
+    git checkout -- ディレクトリ名
+    git checkout --　全変更を取り消す
+
+    -- を付けているのはブランチ名とファイル名が被った時にどちらを指しているのかgitがわからなくなるのを避けるため
+
+
+ステージされた変更をもとに戻す
+    git reset HEAD ファイル名
+    git reset HEAD ディレクトリ名
+
+    git reset HEAD .　全変更を取り消す
+
+    指定した変更をステージから取り消すだけなので、ワークツリーのファイルには影響を与えない
+    もしワークツリーの変更ももとに戻したい場合はgit reset HEADコマンドを行った後に
+    git checkoutコマンドでワークツリーの変更を取り消す
+
+    HEADは今いるブランチの最新のコミットのこと
+    つまりgit reset HEADで最新のコミットでステージの内容を上書きする
+
+
+直前のコミットを修正したい
+    変更をコミットし忘れた
+    コミットメッセージを書き直すなど
+
+    git commit --amend
+    リモートリポジトリにpushしたコミットはやり直したらだめ
+        別の誰かがコミットを取り込んで作業している
+        git commit --amendで修正すると
+        リモートリポジトリと別の誰かの変更履歴が合致せず、取り込めなくなる
+        あくまでもpush前
+        どうしても修正したい場合はgit commitで新しいコミットを作って内容を修正する
+
+    このコマンドを使うと今のステージの内容でコミットを上書きする それにより直前のコミットを修正
+
+
+github　リモートの情報を確認する
+    git remote　リモートを表示
+    git remote -v 対応するURLを表示
+
+
+リモートリポジトリを追加
+    リモートリポジトリは複数登録できる
+
+    git remote add リモート名　リモートURL
+    ex git remote add tutorial http://github.com/user/repo.git
+    tutorialというショートカットでurlのリモートリポジトリを登録
+
+    ex backというリポジトリを作成
+    git remote -v
+        back    https://github.com/RyoAsai-git/git_tutorial_back.git (fetch)
+        back    https://github.com/RyoAsai-git/git_tutorial_back.git (push)
+        origin  https://github.com/RyoAsai-git/git_tutorial.git (fetch)
+        origin  https://github.com/RyoAsai-git/git_tutorial.git (push)
+
+    git push -u back master
+    masterの内容がbackリポジトリにコピーされる
+
+
+リモートから情報取得 fetch
+    2つ　fetch と pull
+
+    git fetch リモート名
+    ex git fetch origin 
+    git fetchではリモートリポジトリからローカルリポジトリへ情報が渡される
+    ワークツリーには情報が渡されない
+
+    remotes/リモート/ブランチへ保存
+    リモート専用の場所へ情報
+
+    git merge　ローカルへ渡したリモートの情報をワークツリーへ反映
+
+    git branch -a
+        * master
+        remotes/back/master
+        remotes/origin/master
+
+    git checkout remotes/origin/master
+        remotes/origin/masterへ自分のワークツリーの内容を切り替える
+
+    git checkout master
+        元々のワークツリーの状態に戻る
+
+    git merge origin/master
+        originのmasterブランチの情報をワークツリーに取り込む
+
+
+リモートから情報取得　pull
+    リモートから情報を取得してマージまでを一度にやりたいとき
+
+    fetchはリモートからローカルへ情報を取得し、その後、ワークツリーへ反映させるにはmergeをする必要がある
+    二回手順がかかる
+
+    git pull リモート名 ブランチ名
+    git pull origin master
+
+    git pull　省略可能 = git pull origin master
+
+    下記コマンドと同じ
+    git fetch origin master
+    git merge origin master
+
+
+fetchとpullの使い分け
+    基本fetch
+
+    pullは挙動が特殊
+        fetch mergeを同時に行う
+        注意点
+            今いるブランチにpullしてきたブランチの情報がマージされる
+            ex 自分がワークツリーでmasterブランチにいる
+                リモートでgit pull origin hoge
+                ローカル remote/origin/hoge
+                masterブランチの情報がhogeブランチで統合される
+                自分がhogeブランチにいれば問題ないが、、、
+                ファイルがぐちゃぐちゃになるリスク
+        
+        慣れるまでfetchおすすめ
+
+
+リモート情報を確認
+    git remote show リモート名
+    git remote show origin 
+
+    表示される情報
+        fetch pullのurl
+        リモートブランチ
+        git pullの挙動
+        git pushの挙動
+
+
+リモート名変更、削除
+    git remote rename 旧リモート名 新リモート名
+    git remote rename tutorial new_tutorial
+
+    git remote rm リモート名
+    git remote rm new_tutorial
