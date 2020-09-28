@@ -96,4 +96,9 @@
     masterブランチをリリース用のブランチ
     開発はトピックごとにブランチを作成して進めるのが基本
 
-    
+リモートブランチ
+    リモートリポジトリにはあるがローカルにはない
+
+    git fetchで
+    remote/origin/feature
+    remote/origin/masterへ保存される
