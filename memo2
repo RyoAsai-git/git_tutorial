@@ -74,3 +74,19 @@
     pull mergeする前に変更中の状態をなくしておく commit stashをしておく
     pullするときはpullするブランチに移動してpull
     コンフリクトしても慌てない
+
+
+ブランチ名を変更 削除
+    変更
+    git branch -m ブランチ名
+    git branch -m new_branch
+
+    削除
+    git branch -d ブランチ名
+    git branch -d feature
+    masterにマージされていない変更が残っている場合削除しない
+    
+    強制削除
+    git branch -D ブランチ名
+    masterにマージされていない変更があっても削除
+    今後使わないブランチに対して行う
