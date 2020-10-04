@@ -112,3 +112,9 @@
 
     次のコミットへ進む
     git rebase --continue
+
+
+コミットをまとめる
+    git rebase -i HEAD~3
+
+    pick squash
