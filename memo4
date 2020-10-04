@@ -117,4 +117,20 @@
 コミットをまとめる
     git rebase -i HEAD~3
 
-    pick squash
+    pickをsquash
+
+    全てsquashにするとerror: cannot 'squash' without a previous commitとなる
+    エラー
+
+
+コミットを分割する
+    git rebase -i HEAD~3
+
+    pickをedit
+
+    git reset HEAD^ 
+    edit記載のコミットをステージングする前の状態へ戻す
+
+    git add ファイル名
+    git commit -m "メッセージ"
+    でそれぞれコミットする
