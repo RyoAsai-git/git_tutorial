@@ -81,3 +81,34 @@
 
     --globalはpc全体の設定
     --globalを設定しないと今あるプロジェクトのみの設定になる
+
+
+リベースで履歴を変更
+    pushする前
+
+    直前のコミットをやり直す
+    git commit --amend 
+    リモートにpushする前
+
+    複数のコミットをやり直す
+    git rebase -i コミットid
+    git rebase -i HEAD~3
+    直前の3つのコミット
+
+    -iはinteractiveの略 対話的リベースと言ってやり取りしながら履歴を変更
+
+    このように表示
+    pick コミットid ヘッダー修正
+    pick コミットid ファイル追加
+    pick コミットid README修正
+
+    やり直したいcommitをeditにする
+    edit コミットid ヘッダー修正
+    pick           ファイル追加 
+    pick           README修正
+
+    やり直したら実行
+    git commit --amend
+
+    次のコミットへ進む
+    git rebase --continue
