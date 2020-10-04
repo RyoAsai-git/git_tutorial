@@ -18,3 +18,15 @@
     git checkout master
     git merge feature 
     ファストフォワード
+
+ファストフォワード設定
+    git config --global merge.ff false
+    コメント表示
+    別のブランチの作業をきちんと残すため
+
+    git config --global merge.ff true
+    ファストフォワード
+
+    ファストフォワードするとどこまでがブランチで作業したか、masterかわからなくなる
+    ブランチでの作業内容を必ずわかるようにしたい場合
+
