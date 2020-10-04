@@ -189,3 +189,14 @@
 
     git tag
     タグ一覧表示
+
+
+タグをリモートへ送信する
+    git pushで別途指定
+    git push origin masterでは送信されない
+
+    git push branch名 tag名
+    git push origin 20170520_01
+
+    git push origin --tags
+    タグを一斉送信
