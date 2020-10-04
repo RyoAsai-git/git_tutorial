@@ -60,3 +60,24 @@
         一回ローカルの変更をpush pull request コンフリクトの表示でてくる
         コンフリクトがあればマージ
     履歴を残したいならマージ
+
+
+プルにはマージ型とリベース型がある
+    マージ型 通常のマージ
+    git pull リモート　ブランチ名
+    git pull origin master
+    マージコミットが残るため、マージした記録を残したい場合に使う 
+
+    リベース型
+    git pull --rebase リモート名　ブランチ名
+    git pull --rebase origin master
+    マージコミットが残らないGitHubの内容を所得したいだけの時はrebase
+
+    プルをリベース型に設定する
+    git config --global pull.rebase true
+
+    masterブランチでgit pullするときだけrebase型にしたい時
+    git config branch.master.rebase true
+
+    --globalはpc全体の設定
+    --globalを設定しないと今あるプロジェクトのみの設定になる
