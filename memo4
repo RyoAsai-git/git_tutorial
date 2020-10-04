@@ -11,4 +11,10 @@
 
     リベース  履歴が一直線
     マージ   履歴が枝分かれ
-    
+
+    git checkout feature
+    git rebase master
+
+    git checkout master
+    git merge feature 
+    ファストフォワード
