@@ -238,3 +238,5 @@ stashを一覧表示
 
     git stash clear
     全作業を削除
+
+stashはバグfixなどで便利
